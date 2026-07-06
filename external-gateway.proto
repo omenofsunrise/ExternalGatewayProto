@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option go_package = "api/v1/external-gateway";
+option csharp_namespace = "ExternalGatewayProto";
+
+service ExternalGateway {
+    rpc AskGemini(AskGeminiRequest) returns (AskGeminiResponse)
+}
+
+message AskGeminiRequest {
+    
+}
+
+message AskGeminiResponse {
+
+}
