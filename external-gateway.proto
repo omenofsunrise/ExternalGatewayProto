@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/omenofsunrise/ExternalGatewayProto";
+option go_package = "generated/gateway";
 option csharp_namespace = "ExternalGatewayProto";
 
 // Service for getting access for blocked services (tg, AI, whatsApp and etc)
