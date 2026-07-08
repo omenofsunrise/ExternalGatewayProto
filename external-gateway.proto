@@ -1,16 +1,19 @@
 syntax = "proto3";
 
-option go_package = "api/v1/external-gateway";
+option go_package = "github.com/omenofsunrise/ExternalGatewayProto";
 option csharp_namespace = "ExternalGatewayProto";
 
+// Service for getting access for blocked services (tg, AI, whatsApp and etc)
 service ExternalGateway {
-    rpc AskGemini(AskGeminiRequest) returns (AskGeminiResponse)
+    // 
+    rpc AskGemini(AskGeminiRequest) returns (AskGeminiResponse);
 }
 
 message AskGeminiRequest {
-    
+    string prompt = 1;
 }
 
 message AskGeminiResponse {
-
+    string content = 1;
+    bool success = 2;
 }
