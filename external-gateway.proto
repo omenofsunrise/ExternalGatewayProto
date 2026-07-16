@@ -1,19 +1,102 @@
 syntax = "proto3";
+import "google/protobuf/struct.proto";
 
 option go_package = "generated/gateway";
 option csharp_namespace = "ExternalGatewayProto";
 
 // Service for getting access for blocked services (tg, AI, whatsApp and etc)
 service ExternalGateway {
-    // 
-    rpc AskGemini(AskGeminiRequest) returns (AskGeminiResponse);
+    // DeepSeek completion
+    rpc AskDeepSeak(AskDeepSeakRequest) returns (AskDeepSeakResponse);
+    
+    // Get DeepSeak account balance
+    rpc GetDeepseakBalance(GetDeepseakBalanceRequest) returns (GetDeepseakBalanceResponse);
 }
 
-message AskGeminiRequest {
-    string prompt = 1;
+// ============ DEEPSEAK MESSAGES ============
+
+message AskDeepSeakRequest {
+    repeated Message messages = 1;
+    optional string model = 2;
+    optional int32 max_tokens = 3;
+    optional bool stream = 4;
+    optional float temperature = 5;
+    optional ResponseFormat response_format = 6;
+    optional string tool_choice = 7;
+    repeated Tool tools = 8;
 }
 
-message AskGeminiResponse {
+message AskDeepSeakResponse {
+    string id = 1;
+    repeated Choice choices = 2;
+    bool success = 3;
+    optional string error = 4;
+}
+
+message Message {
     string content = 1;
-    bool success = 2;
+    Role role = 2;
+    optional string name = 3;
+    optional string tool_call_id = 4;
+    repeated ToolCall tool_calls = 5;
+}
+
+message Tool {
+    string type = 1;
+    Function function = 2;
+}
+
+message Function {
+    string name = 1;
+    google.protobuf.Struct parameters = 2;
+    optional string description = 3;
+    optional bool strict = 4;
+}
+
+message ToolCall {
+    string id = 1;
+    string type = 2;
+    FunctionCall function = 3;
+}
+
+message FunctionCall {
+    string name = 1;
+    string arguments = 2;
+}
+
+message ResponseFormat {
+    string type = 1;
+}
+
+message Choice {
+    string finish_reason = 1;
+    int32 index = 2;
+    Message message = 3;
+}
+
+// ============ BALANCE MESSAGES ============
+
+message GetDeepseakBalanceRequest {}
+
+message GetDeepseakBalanceResponse {
+    bool is_available = 1;
+    repeated BalanceInfo balance_infos = 2;
+    bool success = 3;
+    optional string error = 4;
+}
+
+message BalanceInfo {
+    string currency = 1;
+    string total_balance = 2;
+    string granted_balance = 3;
+    string topped_up_balance = 4;
+}
+
+// ============ ENUMS ============
+
+enum Role {
+    SYSTEM = 0;
+    USER = 1;
+    ASSISTANT = 2;
+    TOOL = 3;
 }
