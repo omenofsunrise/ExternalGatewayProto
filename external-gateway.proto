@@ -7,15 +7,15 @@ option csharp_namespace = "ExternalGatewayProto";
 // Service for getting access for blocked services (tg, AI, whatsApp and etc)
 service ExternalGateway {
     // DeepSeek completion
-    rpc AskDeepSeak(AskDeepSeakRequest) returns (AskDeepSeakResponse);
+    rpc AskDeepSeek(AskDeepSeekRequest) returns (AskDeepSeekResponse);
     
-    // Get DeepSeak account balance
-    rpc GetDeepseakBalance(GetDeepseakBalanceRequest) returns (GetDeepseakBalanceResponse);
+    // Get DeepSeek account balance
+    rpc GetDeepseekBalance(GetDeepseekBalanceRequest) returns (GetDeepseekBalanceResponse);
 }
 
-// ============ DEEPSEAK MESSAGES ============
+// ============ DEEPSEEK MESSAGES ============
 
-message AskDeepSeakRequest {
+message AskDeepSeekRequest {
     repeated Message messages = 1;
     optional string model = 2;
     optional int32 max_tokens = 3;
@@ -26,7 +26,7 @@ message AskDeepSeakRequest {
     repeated Tool tools = 8;
 }
 
-message AskDeepSeakResponse {
+message AskDeepSeekResponse {
     string id = 1;
     repeated Choice choices = 2;
     bool success = 3;
@@ -76,9 +76,9 @@ message Choice {
 
 // ============ BALANCE MESSAGES ============
 
-message GetDeepseakBalanceRequest {}
+message GetDeepseekBalanceRequest {}
 
-message GetDeepseakBalanceResponse {
+message GetDeepseekBalanceResponse {
     bool is_available = 1;
     repeated BalanceInfo balance_infos = 2;
     bool success = 3;
